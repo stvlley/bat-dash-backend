@@ -15,13 +15,8 @@ class NotesController < ApplicationController
 
   # POST /notes
   def create
-    @note = Note.new(note_params)
-
-    if @note.save
-      render json: @note, status: :created, location: @note
-    else
-      render json: @note.errors, status: :unprocessable_entity
-    end
+    note = Note.create(note_params)
+    render json: note, status: :created
   end
 
   # PATCH/PUT /notes/1
@@ -46,6 +41,6 @@ class NotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def note_params
-      params.fetch(:note, {})
+      params.permit(:description, :user_id)
     end
 end
